@@ -5,6 +5,17 @@ import matplotlib.pyplot as plt
 from matplotlib import image, transforms
 import os
 
+
+def generate_specgram(filepath):
+    for subdir, dirs, files in os.walk(filepath):
+        for file in files:
+            if ('.WAV' in file):
+                subpath = os.path.join(subdir, file)
+                save_specgram(subpath)
+
+                
+                
+
 def save_specgram(filename):
 #     filename = "../Data/speech_TRAIN_1/TIMIT_TRAIN_1/DR1/MEDR0/SA2.WAV"
     waveform, sample_rate = torchaudio.load(filename)
@@ -36,9 +47,3 @@ def save_specgram(filename):
     plt.cla()
     
 
-def generate_specgram(filepath)
-    for subdir, dirs, files in os.walk(filepath):
-        for file in files:
-            if ('.WAV' in file):
-                subpath = os.path.join(subdir, file)
-                save_specgram(subpath)
