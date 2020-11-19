@@ -24,14 +24,14 @@ def save_bruit(filename, bruit, bruit_rs, RSB):
     
 #on ajoute le spectro au dossier
     path_list = filename.split("\\")
-    path_list[5] = 'bruité' + "_" + path_list[5][11:] + "_RSB=" + RSB
+    path_list[5] = 'bruité' + "_" + path_list[7][11:] + "_RSB=" + RSB
 
     
     br_name = path_list[6][:-3] + 'png'
 
     print(br_name)
     plt.axis('off')
-    plt.savefig(path_list[5] + '/' + br_name,bbox_inches='tight')
+    plt.savefig(path_list[7] + '/' + br_name,bbox_inches='tight')
     plt.clf()
     plt.cla()
     
@@ -50,9 +50,10 @@ def taille_sig(filepath):
     i=0
     while (i < sig_tot.shape[1] - 48000) :
         sig = data[i:i+48000]
-        path_list = filepath.split("\\")
-        sig_name = 'meme_taille_' + path_list[5][6:11] + '/sig_' + path_list[6][2] + '_' +str(j)+'.WAV' #il faut créer le dossier meme_taille_train
-        write(sig_name,sample_rate,sig)
+        path_list = filepath.split("/")
+        sig_path = '/home/ptit/Documents/dnn-audio/Data/meme_taille_' + path_list[7][6:11] + '/sig_' + path_list[8][2] + '_' +str(j)+'.WAV' #il faut créer le dossier meme_taille_TRAIN ou meme_taille_TEST
+        write(sig_path,sample_rate,sig)
+        #torchaudio.save(sig_path,sig,sample_rate)
         j = j+1
         if (i > sig_tot.shape[1] - 48000):
             break
