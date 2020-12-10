@@ -26,13 +26,15 @@ def save_bruit(filename, bruit, bruit_rs, RSB):
     path_list = filename.split("/")
 
     
-    br_name = 'b_' + path_list[3][:-3] + 'png'
+    br_name = 'b_' + path_list[3][:-3] + 'npy'
+    
+    np.save('../Data/sig/bruité/' + br_name, spec_br.astype(np.float32))
 
     print(br_name)
-    plt.axis('off')
+    """plt.axis('off')
     plt.savefig('../Data/sig/bruité/' + br_name,bbox_inches='tight')
     plt.clf()
-    plt.cla()
+    plt.cla()"""
     
     
 
