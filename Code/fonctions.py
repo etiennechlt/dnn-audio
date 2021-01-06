@@ -19,22 +19,31 @@ def save_bruit(filename, bruit, bruit_rs, RSB):
     s_br = waveform + alpha * bruit_f
     
     
-# on calcul le spectrogramme
-    spec_br, f_br, t_br, im_br = plt.specgram(s_br[0].t().numpy(), Fs = sample_rate, NFFT = 512, scale_by_freq = True, mode = 'psd', cmap = 'gray')
+# on calcul les spectrogrammes
+    spec_br, f_br, t_br, im_br = plt.specgram(s_br[0].t().numpy(), Fs = sample_rate, NFFT = 512, scale_by_freq = False, mode = 'magnitude', cmap = 'gray')
+    phase_br, f_br, t_br, im_br = plt.specgram(s_br[0].t().numpy(), Fs = sample_rate, NFFT = 512, scale_by_freq = False, mode = 'phase', cmap = 'gray')
+
+    spec_clear, f_br, t_br, im_br = plt.specgram(waveform[0].t().numpy(), Fs = sample_rate, NFFT = 512, scale_by_freq = False, mode = 'magnitude', cmap = 'gray')
+    phase_clear, f_br, t_br, im_br = plt.specgram(waveform[0].t().numpy(), Fs = sample_rate, NFFT = 512, scale_by_freq = False, mode = 'phase', cmap = 'gray')
     
 #on ajoute le spectro au dossier
     path_list = filename.split("/")
 
     
-    br_name = 'b_' + path_list[3][:-3] + 'npy'
+    br_name = 'n_' + path_list[3][:-4] + '_mod.npy'
+    br_phase_name = 'n_' + path_list[3][:-4] + '_phi.npy'
     
-    np.save('../Data/sig/bruité/' + br_name, spec_br.astype(np.float32))
+    clear_name = 'c_' + path_list[3][:-4] + '_mod.npy'
+    clear_phase_name = 'c_' + path_list[3][:-4] + '_phi.npy'
+    
+    np.save('../Data/Spec_TRAIN/Noisy/Modulus/Data/' + br_name, spec_br.astype(np.float32))
+    np.save('../Data/Spec_TRAIN/Noisy/Phase/' + br_phase_name, phase_br.astype(np.float32))
 
+    np.save('../Data/Spec_TRAIN/Clear/Modulus/Data/' + clear_name, spec_clear.astype(np.float32))
+    np.save('../Data/Spec_TRAIN/Clear/Phase/' + clear_phase_name, phase_clear.astype(np.float32))
+    
     print(br_name)
-    """plt.axis('off')
-    plt.savefig('../Data/sig/bruité/' + br_name,bbox_inches='tight')
-    plt.clf()
-    plt.cla()"""
+
     
     
 
@@ -52,7 +61,7 @@ def taille_sig(filepath):
     while (i < sig_tot.shape[1] - 48000) :
         sig = data[i:i+48000]
         path_list = filepath.split("/")
-        sig_path = '/home/ptit/Documents/dnn-audio/Data/meme_taille_' + path_list[7][6:11] + '/sig_' + path_list[8][2] + '_' +str(j)+'.WAV' #il faut créer le dossier meme_taille_TRAIN ou meme_taille_TEST
+        sig_path = '../Data/meme_taille_' + path_list[2][7:] + '/sig_' + path_list[4][2] + '_' +str(j)+'.WAV' #il faut créer le dossier meme_taille_TRAIN ou meme_taille_TEST
         write(sig_path,sample_rate,sig)
         #torchaudio.save(sig_path,sig,sample_rate)
         j = j+1
